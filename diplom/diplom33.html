@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотеатр "Экран" - Лучшие фильмы в отличном качестве</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #141414;
+            --accent-color: #f5c518;
+            --light-color: #ffffff;
+            --dark-color: #0a0a0a;
+            --gray-color: #808080;
+            --card-bg: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(20, 20, 20, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--light-color);
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--light-color);
+            border: 1px solid var(--gray-color);
+        }
+
+        .btn-register {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .btn-hero {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Movies Section */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+
+        .movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .movie-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--light-color);
+        }
+
+        .movie-genre {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .movie-rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--accent-color);
+        }
+
+        .rating-value {
+            background-color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .btn-buy {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Sessions Section */
+        .sessions-container {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 60px;
+        }
+
+        .session-filters {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            background-color: #2a2a2a;
+            color: var(--light-color);
+            border: 1px solid #444;
+        }
+
+        .sessions-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .session-time {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .session-movie {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .session-hall {
+            color: var(--gray-color);
+        }
+
+        .session-price {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        /* Cinema Info */
+        .cinema-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .info-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            color: var(--light-color);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 5% auto;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            animation: modalOpen 0.5s;
+        }
+
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .seat-selection {
+            margin: 30px 0;
+        }
+
+        .seat-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .screen {
+            width: 80%;
+            height: 20px;
+            background-color: #ccc;
+            margin-bottom: 40px;
+            text-align: center;
+            padding-top: 3px;
+            color: #333;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+
+        .seats-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .seat {
+            width: 35px;
+            height: 35px;
+            border-radius: 5px;
+            background-color: #444;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .seat:hover {
+            background-color: #666;
+        }
+
+        .seat.selected {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+
+        .seat.occupied {
+            background-color: #777;
+            cursor: not-allowed;
+        }
+
+        .seat-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .booking-summary {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .session-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .seats-row {
+                gap: 5px;
+            }
+            
+            .seat {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-film"></i>
+                    <h1>Кинотеатр <span>Экран</span></h1>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Главная</a></li>
+                        <li><a href="#movies">Фильмы</a></li>
+                        <li><a href="#sessions">Сеансы</a></li>
+                        <li><a href="#info">О кинотеатре</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Войти</button>
+                    <button class="btn btn-register">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Лучшие фильмы на большом экране</h2>
+                <p>Погрузитесь в мир кино с нашими премьерами и классикой кинематографа. Современные технологии, комфортные залы и отличный сервис ждут вас!</p>
+                <button class="btn btn-hero" id="viewMoviesBtn">Смотреть афишу</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section id="movies" class="container">
+        <h2 class="section-title">Сейчас в кино</h2>
+        <div class="movies-container" id="moviesContainer">
+            <!-- Movies will be generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Sessions Section -->
+    <section id="sessions" class="container">
+        <h2 class="section-title">Ближайшие сеансы</h2>
+        <div class="sessions-container">
+            <div class="session-filters">
+                <div class="filter-group">
+                    <label for="dateFilter">Дата</label>
+                    <select id="dateFilter">
+                        <option value="all">Все даты</option>
+                        <option value="today">Сегодня</option>
+                        <option value="tomorrow">Завтра</option>
+                        <option value="weekend">Выходные</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="movieFilter">Фильм</label>
+                    <select id="movieFilter">
+                        <option value="all">Все фильмы</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="hallFilter">Зал</label>
+                    <select id="hallFilter">
+                        <option value="all">Все залы</option>
+                        <option value="1">Зал 1 (2D)</option>
+                        <option value="2">Зал 2 (3D)</option>
+                        <option value="3">Зал 3 (VIP)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="sessions-list" id="sessionsList">
+                <!-- Sessions will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cinema Info -->
+    <section id="info" class="container">
+        <h2 class="section-title">О нашем кинотеатре</h2>
+        <div class="cinema-info">
+            <div class="info-card">
+                <i class="fas fa-video"></i>
+                <h3>Современные технологии</h3>
+                <p>Цифровые проекторы 4K, системы звука Dolby Atmos и комфортные кресла с подогревом</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-concierge-bell"></i>
+                <h3>Высокий сервис</h3>
+                <p>Профессиональный персонал, кафе с попкорном и напитками, услуги по организации мероприятий</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Удобная покупка</h3>
+                <p>Онлайн-бронирование и покупка билетов, электронные билеты, система лояльности</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Кинотеатр "Экран"</h3>
+                    <p>Мы предлагаем лучшие фильмы в комфортных условиях. Приходите и наслаждайтесь кино!</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Кинотеатральная, 15</li>
+                        <li><i class="fas fa-phone"></i> +7 (495) 123-45-67</li>
+                        <li><i class="fas fa-envelope"></i> info@cinema-ekran.ru</li>
+                        <li><i class="fas fa-clock"></i> Ежедневно с 9:00 до 23:00</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <ul>
+                        <li><a href="#">Расписание сеансов</a></li>
+                        <li><a href="#">Цены и акции</a></li>
+                        <li><a href="#">Правила посещения</a></li>
+                        <li><a href="#">Корпоративным клиентам</a></li>
+                        <li><a href="#">Вакансии</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Кинотеатр "Экран". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Выбор мест</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="seat-selection">
+                    <div class="seat-map">
+                        <div class="screen">ЭКРАН</div>
+                        <div id="seatsContainer">
+                            <!-- Seats will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="seat-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #444;"></div>
+                            <span>Свободно</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: var(--accent-color);"></div>
+                            <span>Выбрано</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #777;"></div>
+                            <span>Занято</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="booking-summary">
+                    <div class="summary-row">
+                        <span>Фильм:</span>
+                        <span id="summaryMovie">Название фильма</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Время:</span>
+                        <span id="summaryTime">--:--</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Зал:</span>
+                        <span id="summaryHall">--</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Выбрано мест:</span>
+                        <span id="summarySeatsCount">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Цена за место:</span>
+                        <span id="summaryPricePerSeat">0 ₽</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>ИТОГО:</span>
+                        <span id="summaryTotal">0 ₽</span>
+                    </div>
+                </div>
+                
+                <button class="btn btn-confirm" id="confirmBookingBtn">Подтвердить бронирование</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные фильмов
+        const movies = [
+            {
+                id: 1,
+                title: "Дюна: Часть вторая",
+                genre: "Фантастика, Драма",
+                rating: 8.7,
+                duration: "166 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "Продолжение эпической саги о пустынной планете Аракис и борьбе за контроль над ресурсом меланж."
+            },
+            {
+                id: 2,
+                title: "Оппенгеймер",
+                genre: "Биография, Драма",
+                rating: 8.3,
+                duration: "180 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "История создания атомной бомбы и моральная дилемма её создателя, Роберта Оппенгеймера."
+            },
+            {
+                id: 3,
+                title: "Барби",
+                genre: "Комедия, Фэнтези",
+                rating: 7.0,
+                duration: "114 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "Кукла Барби отправляется в реальный мир, чтобы найти смысл своего существования."
+            },
+            {
+                id: 4,
+                title: "Миссия невыполнима",
+                genre: "Боевик, Триллер",
+                rating: 7.8,
+                duration: "163 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "Итан Хант и его команда противостоят смертоносному искусственному интеллекту."
+            },
+            {
+                id: 5,
+                title: "Стражи Галактики 3",
+                genre: "Фантастика, Комедия",
+                rating: 7.9,
+                duration: "150 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "Команда Стражи Галактики отправляется в новое опасное приключение, чтобы спасти одного из своих."
+            },
+            {
+                id: 6,
+                title: "Трансформеры",
+                genre: "Фантастика, Боевик",
+                rating: 6.6,
+                duration: "127 мин",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                description: "Автоботы и десептиконы продолжают свою многовековую войну на Земле."
+            }
+        ];
+
+        // Данные сеансов
+        const sessions = [
+            {id: 1, movieId: 1, time: "10:00", hall: "Зал 1 (2D)", price: 450, date: "today"},
+            {id: 2, movieId: 1, time: "13:30", hall: "Зал 2 (3D)", price: 550, date: "today"},
+            {id: 3, movieId: 2, time: "11:15", hall: "Зал 3 (VIP)", price: 800, date: "today"},
+            {id: 4, movieId: 3, time: "14:00", hall: "Зал 1 (2D)", price: 400, date: "today"},
+            {id: 5, movieId: 4, time: "16:45", hall: "Зал 2 (3D)", price: 500, date: "today"},
+            {id: 6, movieId: 5, time: "19:20", hall: "Зал 1 (2D)", price: 450, date: "today"},
+            {id: 7, movieId: 6, time: "21:50", hall: "Зал 2 (3D)", price: 550, date: "today"},
+            {id: 8, movieId: 1, time: "09:30", hall: "Зал 1 (2D)", price: 400, date: "tomorrow"},
+            {id: 9, movieId: 2, time: "12:15", hall: "Зал 3 (VIP)", price: 800, date: "tomorrow"},
+            {id: 10, movieId: 3, time: "15:00", hall: "Зал 1 (2D)", price: 400, date: "tomorrow"},
+            {id: 11, movieId: 4, time: "18:30", hall: "Зал 2 (3D)", price: 550, date: "tomorrow"},
+            {id: 12, movieId: 5, time: "21:00", hall: "Зал 1 (2D)", price: 450, date: "tomorrow"}
+        ];
+
+        // Данные о занятых местах
+        const occupiedSeats = [
+            "A1", "A2", "B5", "B6", "C3", "C4", "D7", "D8", "E1", "E2"
+        ];
+
+        // Текущий выбранный сеанс
+        let currentSession = null;
+        // Выбранные места
+        let selectedSeats = [];
+
+        // Инициализация страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMovies();
+            renderSessions();
+            setupEventListeners();
+            populateMovieFilter();
+        });
+
+        // Рендеринг фильмов
+        function renderMovies() {
+            const moviesContainer = document.getElementById('moviesContainer');
+            moviesContainer.innerHTML = '';
+            
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <p class="movie-genre">${movie.genre} • ${movie.duration}</p>
+                        <div class="movie-rating">
+                            <div class="stars">
+                                ${getStarRating(movie.rating)}
+                            </div>
+                            <span class="rating-value">${movie.rating}</span>
+                        </div>
+                        <button class="btn btn-buy" data-movie-id="${movie.id}">Купить билет</button>
+                    </div>
+                `;
+                moviesContainer.appendChild(movieCard);
+            });
+        }
+
+        // Получение звезд рейтинга
+        function getStarRating(rating) {
+            const fullStars = Math.floor(rating / 2);
+            let starsHtml = '';
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    starsHtml += '<i class="fas fa-star"></i>';
+                } else {
+                    starsHtml += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            return starsHtml;
+        }
+
+        // Рендеринг сеансов
+        function renderSessions() {
+            const sessionsList = document.getElementById('sessionsList');
+            sessionsList.innerHTML = '';
+            
+            const dateFilter = document.getElementById('dateFilter').value;
+            const movieFilter = document.getElementById('movieFilter').value;
+            const hallFilter = document.getElementById('hallFilter').value;
+            
+            const filteredSessions = sessions.filter(session => {
+                if (dateFilter !== 'all' && session.date !== dateFilter) return false;
+                if (movieFilter !== 'all' && session.movieId.toString() !== movieFilter) return false;
+                if (hallFilter !== 'all' && !session.hall.includes(hallFilter)) return false;
+                return true;
+            });
+            
+            if (filteredSessions.length === 0) {
+                sessionsList.innerHTML = '<p style="text-align: center; padding: 20px;">Нет сеансов по выбранным критериям</p>';
+                return;
+            }
+            
+            filteredSessions.forEach(session => {
+                const movie = movies.find(m => m.id === session.movieId);
+                if (!movie) return;
+                
+                const sessionItem = document.createElement('div');
+                sessionItem.className = 'session-item';
+                sessionItem.innerHTML = `
+                    <div class="session-time">${session.time}</div>
+                    <div>
+                        <div class="session-movie">${movie.title}</div>
+                        <div class="session-hall">${session.hall}</div>
+                    </div>
+                    <div class="session-price">${session.price} ₽</div>
+                    <button class="btn btn-buy" data-session-id="${session.id}">Купить</button>
+                `;
+                sessionsList.appendChild(sessionItem);
+            });
+        }
+
+        // Заполнение фильтра по фильмам
+        function populateMovieFilter() {
+            const movieFilter = document.getElementById('movieFilter');
+            
+            movies.forEach(movie => {
+                const option = document.createElement('option');
+                option.value = movie.id;
+                option.textContent = movie.title;
+                movieFilter.appendChild(option);
+            });
+        }
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Прокрутка к фильмам при нажатии на кнопку в герое
+            document.getElementById('viewMoviesBtn').addEventListener('click', function() {
+                document.getElementById('movies').scrollIntoView({behavior: 'smooth'});
+            });
+            
+            // Обработчики для фильтров сеансов
+            document.getElementById('dateFilter').addEventListener('change', renderSessions);
+            document.getElementById('movieFilter').addEventListener('change', renderSessions);
+            document.getElementById('hallFilter').addEventListener('change', renderSessions);
+            
+            // Обработчики для кнопок "Купить билет"
+            document.addEventListener('click', function(e) {
+                // Купить билет на фильм (из списка фильмов)
+                if (e.target.classList.contains('btn-buy') && e.target.dataset.movieId) {
+                    const movieId = parseInt(e.target.dataset.movieId);
+                    openBookingForMovie(movieId);
+                }
+                
+                // Купить билет на сеанс (из списка сеансов)
+                if (e.target.classList.contains('btn-buy') && e.target.dataset.sessionId) {
+                    const sessionId = parseInt(e.target.dataset.sessionId);
+                    openBookingForSession(sessionId);
+                }
+            });
+            
+            // Закрытие модального окна
+            document.querySelector('.close-modal').addEventListener('click', closeModal);
+            document.getElementById('bookingModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+            
+            // Подтверждение бронирования
+            document.getElementById('confirmBookingBtn').addEventListener('click', confirmBooking);
+            
+            // Навигация по странице
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    if (targetId) {
+                        document.getElementById(targetId).scrollIntoView({behavior: 'smooth'});
+                    }
+                    
+                    // Обновление активного пункта меню
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Кнопки входа и регистрации
+            document.querySelector('.btn-login').addEventListener('click', function() {
+                alert('Форма входа будет реализована в следующей версии');
+            });
+            
+            document.querySelector('.btn-register').addEventListener('click', function() {
+                alert('Форма регистрации будет реализована в следующей версии');
+            });
+        }
+
+        // Открытие бронирования для фильма
+        function openBookingForMovie(movieId) {
+            const movie = movies.find(m => m.id === movieId);
+            if (!movie) return;
+            
+            // Находим первый сеанс для этого фильма
+            const sessionForMovie = sessions.find(s => s.movieId === movieId);
+            if (!sessionForMovie) {
+                alert('На данный фильм нет доступных сеансов');
+                return;
+            }
+            
+            openBookingModal(sessionForMovie);
+        }
+
+        // Открытие бронирования для сеанса
+        function openBookingForSession(sessionId) {
+            const session = sessions.find(s => s.id === sessionId);
+            if (!session) return;
+            
+            openBookingModal(session);
+        }
+
+        // Открытие модального окна бронирования
+        function openBookingModal(session) {
+            currentSession = session;
+            selectedSeats = [];
+            
+            const movie = movies.find(m => m.id === session.movieId);
+            if (!movie) return;
+            
+            // Заполняем информацию в модальном окне
+            document.getElementById('modalTitle').textContent = `Выбор мест: ${movie.title}`;
+            document.getElementById('summaryMovie').textContent = movie.title;
+            document.getElementById('summaryTime').textContent = session.time;
+            document.getElementById('summaryHall').textContent = session.hall;
+            document.getElementById('summaryPricePerSeat').textContent = `${session.price} ₽`;
+            
+            updateBookingSummary();
+            
+            // Генерируем карту мест
+            generateSeatMap();
+            
+            // Открываем модальное окно
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        // Генерация карты мест
+        function generateSeatMap() {
+            const seatsContainer = document.getElementById('seatsContainer');
+            seatsContainer.innerHTML = '';
+            
+            const rows = ['A', 'B', 'C', 'D', 'E', 'F'];
+            const seatsPerRow = 8;
+            
+            rows.forEach(row => {
+                const rowElement = document.createElement('div');
+                rowElement.className = 'seats-row';
+                
+                for (let i = 1; i <= seatsPerRow; i++) {
+                    const seatId = `${row}${i}`;
+                    const seatElement = document.createElement('div');
+                    seatElement.className = 'seat';
+                    seatElement.textContent = seatId;
+                    seatElement.dataset.seatId = seatId;
+                    
+                    // Проверяем, занято ли место
+                    if (occupiedSeats.includes(seatId)) {
+                        seatElement.classList.add('occupied');
+                    }
+                    
+                    seatElement.addEventListener('click', function() {
+                        // Нельзя выбрать занятое место
+                        if (this.classList.contains('occupied')) return;
+                        
+                        // Переключаем состояние выбора места
+                        this.classList.toggle('selected');
+                        
+                        // Обновляем список выбранных мест
+                        const seatId = this.dataset.seatId;
+                        if (this.classList.contains('selected')) {
+                            if (!selectedSeats.includes(seatId)) {
+                                selectedSeats.push(seatId);
+                            }
+                        } else {
+                            const index = selectedSeats.indexOf(seatId);
+                            if (index > -1) {
+                                selectedSeats.splice(index, 1);
+                            }
+                        }
+                        
+                        updateBookingSummary();
+                    });
+                    
+                    rowElement.appendChild(seatElement);
+                }
+                
+                seatsContainer.appendChild(rowElement);
+            });
+        }
+
+        // Обновление сводки бронирования
+        function updateBookingSummary() {
+            document.getElementById('summarySeatsCount').textContent = selectedSeats.length;
+            
+            if (currentSession) {
+                const total = selectedSeats.length * currentSession.price;
+                document.getElementById('summaryTotal').textContent = `${total} ₽`;
+            } else {
+                document.getElementById('summaryTotal').textContent = `0 ₽`;
+            }
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+            currentSession = null;
+            selectedSeats = [];
+        }
+
+        // Подтверждение бронирования
+        function confirmBooking() {
+            if (!currentSession) return;
+            
+            if (selectedSeats.length === 0) {
+                alert('Пожалуйста, выберите хотя бы одно место');
+                return;
+            }
+            
+            const movie = movies.find(m => m.id === currentSession.movieId);
+            if (!movie) return;
+            
+            const totalPrice = selectedSeats.length * currentSession.price;
+            
+            // В реальном приложении здесь был бы запрос к серверу
+            alert(`Бронирование подтверждено!\n\nФильм: ${movie.title}\nВремя: ${currentSession.time}\nЗал: ${currentSession.hall}\nМеста: ${selectedSeats.join(', ')}\nСумма: ${totalPrice} ₽\n\nБилеты будут высланы на вашу электронную почту.`);
+            
+            // Обновляем занятые места (в реальном приложении это делалось бы на сервере)
+            occupiedSeats.push(...selectedSeats);
+            
+            closeModal();
+            
+            // Обновляем карту мест для будущих бронирований
+            generateSeatMap();
+        }
+    </script>
+</body>
+</html>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
