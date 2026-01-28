@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Технология и материалы | Vetler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Основные сбросы и настройки */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: #222;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка и навигация */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #ccc;
+            font-size: 0.85rem;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .contacts a {
+            color: #ccc;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+
+        .contacts a:hover {
+            color: #fff;
+        }
+
+        .contacts i {
+            margin-right: 6px;
+            color: #4dabf7;
+        }
+
+        .holiday-notice {
+            background-color: #e7f5ff;
+            color: #1864ab;
+            text-align: center;
+            padding: 10px;
+            font-weight: 500;
+            border-bottom: 1px solid #a5d8ff;
+        }
+
+        /* Основной заголовок и навигация */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #339af0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #339af0;
+        }
+
+        nav a.active {
+            color: #339af0;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #339af0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Главный баннер */
+        .hero {
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Секции */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: #339af0;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Технологии */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .tech-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .tech-image {
+            height: 220px;
+            background-color: #e9ecef;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tech-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .tech-content p {
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background-color: #e7f5ff;
+            color: #1971c2;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        /* Эффективность */
+        .efficiency-section {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .efficiency-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .efficiency-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+
+        .efficiency-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .efficiency-text ul {
+            list-style-position: inside;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .efficiency-text li {
+            margin-bottom: 10px;
+        }
+
+        .efficiency-chart {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .chart-bar {
+            margin-bottom: 25px;
+        }
+
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .chart-bar-bg {
+            height: 25px;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #339af0, #4dabf7);
+            position: relative;
+        }
+
+        .chart-bar-fill::after {
+            content: attr(data-db);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .chart-note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* Программно-аппаратный комплекс */
+        .complex-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .complex-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .complex-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .complex-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #339af0, #4dabf7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .complex-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        /* Подтверждения и патенты */
+        .proof-section {
+            background-color: #f8f9fa;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .proof-card {
+            background: white;
+            border-radius: 10px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .proof-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #339af0;
+            margin-bottom: 15px;
+        }
+
+        .proof-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        /* Форма подписки */
+        .subscribe-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d3436 100%);
+            color: white;
+        }
+
+        .subscribe-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .subscribe-container h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .subscribe-container p {
+            opacity: 0.8;
+            margin-bottom: 35px;
+        }
+
+        .subscribe-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .subscribe-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .subscribe-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .subscribe-button {
+            padding: 16px 35px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .subscribe-button:hover {
+            background-color: #ff5252;
+        }
+
+        .form-note {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* Подвал */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-logo span {
+            color: #339af0;
+        }
+
+        .footer-about {
+            flex: 1;
+            min-width: 250px;
+            margin-right: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #339af0;
+        }
+
+        .footer-contact p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-contact i {
+            margin-right: 10px;
+            color: #339af0;
+            width: 20px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .efficiency-content {
+                flex-direction: column;
+            }
+            .efficiency-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            nav li {
+                margin: 10px 0;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            .tech-grid, .complex-grid, .proof-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .top-bar-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .contacts a {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            .hero {
+                padding: 60px 0;
+            }
+            .subscribe-form {
+                flex-direction: column;
+            }
+            .subscribe-input, .subscribe-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Верхняя панель с контактами -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="contacts">
+                <a href="mailto:sales@velter.tech"><i class="fas fa-envelope"></i> Написать на email →</a>
+                <a href="tel:+74992832642"><i class="fas fa-phone"></i> +7 (499) 283-26-42</a>
+                <a href="https://t.me/velterbot" target="_blank"><i class="fab fa-telegram"></i> Telegram @velterbot</a>
+                <a href="https://wa.me/79055090522" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp +7 905 509 05 22</a>
+            </div>
+            <div class="address">121205, Москва, ул. Большой бульвар 42с1</div>
+        </div>
+    </div>
+
+    <!-- Уведомление о праздниках -->
+    <div class="holiday-notice">
+        Все заказы, оформленные с 30.12 по 11.01 включительно, будут отправлены 12.01.2026 г.
+    </div>
+
+    <!-- Шапка с навигацией -->
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">Vel<span>ter</span></a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="mainNav">
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/technology" class="active">Технологии</a></li>
+                    <li><a href="/products">Продукты</a></li>
+                    <li><a href="/testing">Испытания</a></li>
+                    <li><a href="/patents">Патенты</a></li>
+                    <li><a href="/contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero">
+        <div class="container">
+            <h1>Мы объединили технологии, которые обеспечивают максимальную защиту от дистанционного взлома мобильных устройств</h1>
+            <p>Комплексное решение для защиты вашей конфиденциальности во время переговоров и работы с чувствительной информацией</p>
+            <a href="#complex" class="cta-button">Узнать о комплексном решении</a>
+        </div>
+    </section>
+
+    <!-- Секция технологий -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2 id="technologies">Технологии</h2>
+                <p>Инновационные решения для защиты от современных угроз информационной безопасности</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-image" style="background: linear-gradient(135deg, #2d3436, #636e72); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="tech-content">
+                        <h3>Клетка Фарадея</h3>
+                        <p>Замкнутый контур из токопроводящего материала, внутри которого ослабляется электромагнитное поле. Электроника, оказавшись внутри такого контура, теряет возможность отправлять или принимать информацию по любым радиоканалам связи.</p>
+                        <span class="tech-tag">Физическая защита</span>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <div class="tech-image" style="background: linear-gradient(135deg, #0c2461, #1e3799); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <div class="tech-content">
+                        <h3>Ультразвуковое подавление микрофонов</h3>
+                        <p>Ультразвук в диапазоне частот 24-26 кГц не воспринимается человеческим слухом и не мешает общению. Помеха воздействует на электронику — вызывает перегрузку усилителя микрофонов на смартфонах и других устройствах с возможностью записи звука.</p>
+                        <span class="tech-tag">Акустическая защита</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция эффективности -->
+    <section class="efficiency-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Эффективность ослабления ЭМП устройствами Velter</h2>
+                <p>Уровень ослабления ЭМП измеряется в децибелах (дБ). Значения соответствуют показателям, достаточным для гарантированного блокирования сигналов.</p>
+            </div>
+
+            <div class="efficiency-content">
+                <div class="efficiency-text">
+                    <h3>Клетка Фарадея применяется в линейке экранирующих устройств Velter</h3>
+                    <ul>
+                        <li><strong>Чехлы</strong> — Многослойная структура металлизированных материалов</li>
+                        <li><strong>Боксы</strong> — Полная изоляция устройства от внешних электромагнитных полей</li>
+                    </ul>
+                    <p>Подтверждено независимыми испытаниями ВНИИФТРИ. Диапазон частот при тестировании устройств Velter соответствует рабочим частотам стандартов беспроводной связи на мобильных устройствах.</p>
+                </div>
+
+                <div class="efficiency-chart">
+                    <div class="chart-bar">
+                        <div class="chart-label">
+                            <span>1 ГГц - 5 ГГц</span>
+                            <span>Диапазон частот</span>
+                        </div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 92%;" data-db="65 дБ"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-bar">
+                        <div class="chart-label">
+                            <span>1 МГц - 7 ГГц</span>
+                            <span>Диапазон частот</span>
+                        </div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 87%;" data-db="70 дБ"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-bar">
+                        <div class="chart-label">
+                            <span>30 МГц - 5800 МГц</span>
+                            <span>Диапазон частот</span>
+                        </div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 95%;" data-db="80+ дБ"></div>
+                        </div>
+                    </div>
+
+                    <p class="chart-note">ЭМП — электромагнитное поле. Результаты испытаний подтверждают эффективность блокирования сигналов сотовой связи, Wi-Fi, Bluetooth и других радиоканалов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Программно-аппаратный комплекс -->
+    <section id="complex">
+        <div class="container">
+            <div class="section-title">
+                <h2>Программно-аппаратный комплекс</h2>
+                <p>Мы объединили технологии в едином решении, которое обеспечивает максимальную защиту от дистанционного взлома и прослушивания смартфонов во время переговоров.</p>
+            </div>
+
+            <div class="complex-grid">
+                <div class="complex-card">
+                    <div class="complex-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h4>Клетка Фарадея</h4>
+                    <p>Физически блокирует дистанционный взлом и скрытую активацию различных функций на смартфонах.</p>
+                </div>
+
+                <div class="complex-card">
+                    <div class="complex-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <h4>Ультразвуковая помеха</h4>
+                    <p>Подавляет микрофоны на смартфонах, делая запись разговора невозможной для расшифровки.</p>
+                </div>
+
+                <div class="complex-card">
+                    <div class="complex-icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <h4>Белый шум</h4>
+                    <p>Приложение генерирует звуковой шум со случайным паттерном, маскируя речевую информацию.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подтверждения и патенты -->
+    <section class="proof-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Подтверждено независимыми испытаниями</h2>
+                <p>Наши запатентованные изделия прошли лабораторные тесты по оценке эффективности экранирования в независимых лабораториях.</p>
+            </div>
+
+            <div class="proof-grid">
+                <div class="proof-card">
+                    <div class="proof-number">1</div>
+                    <h4>Отчет об испытаниях</h4>
+                    <p>Полные результаты тестирования эффективности экранирования в независимой лаборатории.</p>
+                </div>
+
+                <div class="proof-card">
+                    <div class="proof-number">5+</div>
+                    <h4>Патенты на изобретения</h4>
+                    <p>Запатентованные технологии и уникальные конструктивные решения.</p>
+                </div>
+
+                <div class="proof-card">
+                    <div class="proof-number">3</div>
+                    <h4>Свидетельства на ПО</h4>
+                    <p>Официально зарегистрированное программное обеспечение для комплексной защиты.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма подписки -->
+    <section class="subscribe-section">
+        <div class="container subscribe-container">
+            <h2>Полезные материалы и скидки для своих</h2>
+            <p>Подпишитесь на рассылку и получите доступ к эксклюзивным материалам по информационной безопасности и специальным предложениям.</p>
+
+            <form class="subscribe-form" id="subscribeForm">
+                <input type="email" class="subscribe-input" placeholder="Ваш email" required>
+                <button type="submit" class="subscribe-button">Подписаться</button>
+            </form>
+            <p class="form-note">Нажимая на кнопку «Подписаться», вы даете согласие на обработку персональных данных в соответствии с Политикой конфиденциальности</p>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <a href="/" class="footer-logo">Vel<span>ter</span></a>
+                    <p>Технологии защиты от дистанционного взлома мобильных устройств и прослушивания. Комплексные решения для обеспечения конфиденциальности.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Разделы</h4>
+                    <ul>
+                        <li><a href="/technology">Технологии</a></li>
+                        <li><a href="/products">Продукты</a></li>
+                        <li><a href="/testing">Испытания</a></li>
+                        <li><a href="/patents">Патенты</a></li>
+                        <li><a href="/contact">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-phone"></i> +7 (499) 283-26-42</p>
+                    <p><i class="fas fa-envelope"></i> sales@velter.tech</p>
+                    <p><i class="fab fa-telegram"></i> Telegram @velterbot</p>
+                    <p><i class="fab fa-whatsapp"></i> WhatsApp +7 905 509 05 22</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 121205, Москва, ул. Большой бульвар 42с1</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 Velter. Все права защищены. Информация на сайте не является публичной офертой.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('#mainNav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('mainNav').classList.remove('active');
+            });
+        });
+
+        // Обработка формы подписки
+        document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.subscribe-input').value;
+            
+            // Имитация отправки
+            this.innerHTML = '<div style="color: white; font-size: 1.2rem; padding: 20px;"><i class="fas fa-check-circle"></i> Спасибо! Будем на связи</div>';
+            
+            // В реальном приложении здесь был бы AJAX-запрос к серверу
+            console.log('Email для подписки:', email);
+        });
+
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Анимация появления элементов при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдаем за карточками технологий и другими элементами
+        document.querySelectorAll('.tech-card, .complex-card, .proof-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
