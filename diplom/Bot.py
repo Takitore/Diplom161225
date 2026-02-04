@@ -190,3 +190,38 @@ async def all_films(message: types.Message):
         
         await message.answer(response, parse_mode="Markdown", reply_markup=keyboard)
         response = ""
+
+        # Сеансы для конкретного фильма
+@dp.callback_query(lambda c: c.data.startswith("film_sessions_"))
+async def film_sessions(callback: types.CallbackQuery):
+    film_id = int(callback.data.split("_")[2])
+    
+    async with aiosqlite.connect('cinema.db') as db:
+        # Получаем информацию о фильме
+        cursor = await db.execute("SELECT title FROM films WHERE id = ?", (film_id,))
+        film = await cursor.fetchone()
+        
+        # Получаем сеансы на 3 дня вперед
+        date_from = datetime.now()
+        date_to = date_from + timedelta(days=3)
+        
+        cursor = await db.execute('''
+            SELECT s.id, s.date_time, s.hall, s.price
+            FROM sessions s
+            WHERE s.film_id = ? AND s.date_time BETWEEN ? AND ?
+            ORDER BY s.date_time
+        ''', (film_id, date_from.isoformat(), date_to.isoformat()))
+        
+        sessions = await cursor.fetchall()
+    
+    if not sessions:
+        await callback.message.answer(f"На ближайшие 3 дня сеансов для фильма '{film[0]}' нет.")
+        return
+    
+    response = f"🎬 *Сеансы для фильма '{film[0]}':*\n\n"
+    
+    for session in sessions:
+        session_id, date_time, hall, price = session
+        dt = datetime.fromisoformat(date_time)
+        response += f"📅 *{dt.strftime('%d.%m.%Y %H:%M')}*\n"
+        response += f"📍 Зал: {hall} | 💰 {price} руб.\n"
