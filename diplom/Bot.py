@@ -225,3 +225,34 @@ async def film_sessions(callback: types.CallbackQuery):
         dt = datetime.fromisoformat(date_time)
         response += f"📅 *{dt.strftime('%d.%m.%Y %H:%M')}*\n"
         response += f"📍 Зал: {hall} | 💰 {price} руб.\n"
+
+        for session in sessions:
+        session_id, date_time, hall, price = session
+        dt = datetime.fromisoformat(date_time)
+        response += f"📅 *{dt.strftime('%d.%m.%Y %H:%M')}*\n"
+        response += f"📍 Зал: {hall} | 💰 {price} руб.\n"
+        
+        # Кнопка для бронирования
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[[
+            InlineKeyboardButton(text="🎟️ Забронировать", callback_data=f"book_session_{session_id}")
+        ]])
+        
+        await callback.message.answer(response, reply_markup=keyboard)
+        response = ""
+
+# Начало бронирования
+@dp.callback_query(lambda c: c.data == "booking")
+@dp.message(Command("booking"))
+async def start_booking(callback: types.CallbackQuery, state: FSMContext):
+    await state.set_state(BookingStates.choosing_film)
+    
+    async with aiosqlite.connect('cinema.db') as db:
+        cursor = await db.execute("SELECT id, title FROM films")
+        films = await cursor.fetchall()
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[])
+    
+    for film in films:
+        film_id, title = film
+        keyboard.inline_keyboard.append([
+            InlineKeyboard
