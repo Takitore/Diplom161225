@@ -256,3 +256,54 @@ async def start_booking(callback: types.CallbackQuery, state: FSMContext):
         film_id, title = film
         keyboard.inline_keyboard.append([
             InlineKeyboard
+
+            # Выбор фильма
+@dp.callback_query(lambda c: c.data.startswith("choose_film_"), StateFilter(BookingStates.choosing_film))
+async def choose_film(callback: types.CallbackQuery, state: FSMContext):
+    film_id = int(callback.data.split("_")[2])
+    await state.update_data(film_id=film_id)
+    
+    async with aiosqlite.connect('cinema.db') as db:
+        cursor = await db.execute("SELECT title FROM films WHERE id = ?", (film_id,))
+        film_title = (await cursor.fetchone())[0]
+        
+        # Получаем сеансы на завтра
+        tomorrow = datetime.now() + timedelta(days=1)
+        date_from = tomorrow.replace(hour=0, minute=0, second=0)
+        date_to = tomorrow.replace(hour=23, minute=59, second=59)
+        
+        cursor = await db.execute('''
+            SELECT id, date_time, hall, price
+            FROM sessions
+            WHERE film_id = ? AND date_time BETWEEN ? AND ?
+            ORDER BY date_time
+        ''', (film_id, date_from.isoformat(), date_to.isoformat()))
+        
+        sessions = await cursor.fetchall()
+    
+    if not sessions:
+        await callback.message.answer(f"На завтра для фильма '{film_title}' сеансов нет.")
+        await state.clear()
+        return
+    
+    await state.set_state(BookingStates.choosing_time)
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[])
+    
+    for session in sessions:
+        session_id, date_time, hall, price = session
+        dt = datetime.fromisoformat(date_time)
+        button_text = f"{dt.strftime('%H:%M')} | Зал {hall} | {price} руб."
+        keyboard.inline_keyboard.append([
+            InlineKeyboardButton(text=button_text, callback_data=f"choose_time_{session_id}")
+        ])
+    
+    keyboard.inline_keyboard.append([
+        InlineKeyboardButton(text="🔙 Назад к выбору фильма", callback_data="back_to_films")
+    ])
+    
+    await callback.message.answer(
+        f"🕐 *Выберите время сеанса для фильма '{film_title}':*\n"
+        f"📅 Дата: {tomorrow.strftime('%d.%m.%Y')}",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
