@@ -307,3 +307,47 @@ async def choose_film(callback: types.CallbackQuery, state: FSMContext):
         reply_markup=keyboard,
         parse_mode="Markdown"
     )
+
+    # Выбор времени
+@dp.callback_query(lambda c: c.data.startswith("choose_time_"), StateFilter(BookingStates.choosing_time))
+async def choose_time(callback: types.CallbackQuery, state: FSMContext):
+    session_id = int(callback.data.split("_")[2])
+    await state.update_data(session_id=session_id)
+    
+    # Генерация мест (пример: зал на 20 мест)
+    seats = []
+    for row in range(1, 5):
+        row_seats = []
+        for seat in range(1, 6):
+            seat_id = f"{row}{chr(64+seat)}"  # 1A, 1B, etc.
+            row_seats.append(InlineKeyboardButton(text=seat_id, callback_data=f"seat_{seat_id}"))
+        seats.append(row_seats)
+    
+    seats.append([InlineKeyboardButton(text="✅ Подтвердить выбор", callback_data="confirm_seats")])
+    seats.append([InlineKeyboardButton(text="🔙 Назад к выбору времени", callback_data="back_to_times")])
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=seats)
+    
+    await state.set_state(BookingStates.choosing_seats)
+    await callback.message.answer(
+        "💺 *Выберите места:*\n"
+        "🟢 - свободно\n"
+        "🔴 - занято\n"
+        "🟡 - ваш выбор",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
+
+# Обработка выбора мест
+@dp.callback_query(lambda c: c.data.startswith("seat_"), StateFilter(BookingStates.choosing_seats))
+async def choose_seat(callback: types.CallbackQuery, state: FSMContext):
+    seat = callback.data.split("_")[1]
+    data = await state.get_data()
+    selected_seats = data.get("selected_seats", [])
+    
+    if seat in selected_seats:
+        selected_seats.remove(seat)
+    else:
+        selected_seats.append(seat)
+    
+    await state.update_data(selected_seats=selected_seats)
