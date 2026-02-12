@@ -351,3 +351,49 @@ async def choose_seat(callback: types.CallbackQuery, state: FSMContext):
         selected_seats.append(seat)
     
     await state.update_data(selected_seats=selected_seats)
+
+     # Обновляем клавиатуру с выбранными местами
+    await callback.answer(f"Выбраны места: {', '.join(selected_seats) if selected_seats else 'нет'}")
+    # Здесь должна быть логика обновления клавиатуры, но для простоты оставляем как есть
+
+# Подтверждение выбора мест
+@dp.callback_query(lambda c: c.data == "confirm_seats", StateFilter(BookingStates.choosing_seats))
+async def confirm_seats(callback: types.CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    selected_seats = data.get("selected_seats", [])
+    
+    if not selected_seats:
+        await callback.message.answer("❌ Вы не выбрали ни одного места!")
+        return
+    
+    await state.set_state(BookingStates.confirming_booking)
+    
+    async with aiosqlite.connect('cinema.db') as db:
+        cursor = await db.execute('''
+            SELECT f.title, s.date_time, s.price
+            FROM sessions s
+            JOIN films f ON s.film_id = f.id
+            WHERE s.id = ?
+        ''', (data["session_id"],))
+        
+        session_info = await cursor.fetchone()
+    
+    total_price = len(selected_seats) * session_info[2]
+    
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✅ Подтвердить бронь", callback_data="final_confirm")],
+        [InlineKeyboardButton(text="❌ Отменить", callback_data="cancel_booking")]
+    ])
+    
+    dt = datetime.fromisoformat(session_info[1])
+    
+    await callback.message.answer(
+        f"📋 *Подтвердите бронирование:*\n\n"
+        f"🎬 Фильм: *{session_info[0]}*\n"
+        f"📅 Дата и время: *{dt.strftime('%d.%m.%Y %H:%M')}*\n"
+        f"💺 Места: *{', '.join(selected_seats)}*\n"
+        f"💰 Сумма: *{total_price} руб.*\n\n"
+        f"_Бронь будет действительна 15 минут_",
+        reply_markup=keyboard,
+        parse_mode="Markdown"
+    )
