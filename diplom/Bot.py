@@ -397,3 +397,52 @@ async def confirm_seats(callback: types.CallbackQuery, state: FSMContext):
         reply_markup=keyboard,
         parse_mode="Markdown"
     )
+
+    # Информация о кинотеатре
+@dp.callback_query(lambda c: c.data == "about")
+async def about_cinema(callback: types.CallbackQuery):
+    text = (
+        "🎥 *О нашем кинотеатре*\n\n"
+        "Мы — современный кинотеатр с 5 залами, оснащенными:\n"
+        "• Проекторами 4K Laser\n"
+        "• Dolby Atmos звуком\n"
+        "• Комфортными креслами\n"
+        "• Системой вентиляции\n\n"
+        "🍿 *Также у нас есть:*\n"
+        "• Попкорн-бар\n"
+        "• Кафе с напитками\n"
+        "• Детская игровая зона\n"
+        "• Бесплатный Wi-Fi\n\n"
+        "📍 Адрес: ул. Кинотеатральная, 123\n"
+        "🕒 Часы работы: 9:00 - 2:00"
+    )
+    await callback.message.answer(text, parse_mode="Markdown")
+
+# Контакты
+@dp.callback_query(lambda c: c.data == "contacts")
+async def contacts(callback: types.CallbackQuery):
+    text = (
+        "📞 *Контакты*\n\n"
+        "📍 Адрес: ул. Кинотеатральная, 123\n"
+        "📱 Телефон: +7 (999) 123-45-67\n"
+        "📧 Email: info@cinema.example.com\n"
+        "🌐 Сайт: www.cinema.example.com\n\n"
+        "🕒 *Часы работы:*\n"
+        "Пн-Пт: 9:00 - 2:00\n"
+        "Сб-Вс: 8:00 - 3:00\n\n"
+        "📱 *Мы в соцсетях:*\n"
+        "VK: vk.com/kinoteatr\n"
+        "Telegram: t.me/kinoteatr_news"
+    )
+    await callback.message.answer(text, parse_mode="Markdown")
+
+# Запуск бота
+async def main():
+    await init_db()
+    await generate_test_data()
+    
+    print("Бот запущен! Нажмите Ctrl+C для остановки.")
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
